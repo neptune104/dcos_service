@@ -1,0 +1,76 @@
+{
+  "labels": {
+    "HAPROXY_GROUP": "external",
+    "HAPROXY_0_VHOST": "docker-repo.kbsys.co.kr",
+    "HAPROXY_1_VHOST": "docker-repo-1.kbsys.co.kr"
+  },
+  "id": "/nexus",
+  "backoffFactor": 1.15,
+  "backoffSeconds": 1,
+  "constraints": [
+    [
+      "hostname",
+      "LIKE",
+      "192.168.0.248"
+    ]
+  ],
+  "container": {
+    "portMappings": [
+      {
+        "containerPort": 8081,
+        "hostPort": 0,
+        "labels": {
+          "VIP_0": "/nexus:8081"
+        },
+        "protocol": "tcp",
+        "servicePort": 10154
+      },
+      {
+        "containerPort": 5000,
+        "hostPort": 0,
+        "labels": {
+          "VIP_1": "/nexus:5000"
+        },
+        "protocol": "tcp",
+        "servicePort": 10157
+      }
+    ],
+    "type": "DOCKER",
+    "volumes": [
+      {
+        "containerPath": "/nexus-data",
+        "hostPath": "/home/nexus-data",
+        "mode": "RW"
+      }
+    ],
+    "docker": {
+      "image": "sonatype/nexus3:3.13.0",
+      "forcePullImage": false,
+      "privileged": false,
+      "parameters": []
+    }
+  },
+  "cpus": 1,
+  "disk": 0,
+  "instances": 1,
+  "maxLaunchDelaySeconds": 300,
+  "mem": 1024,
+  "gpus": 0,
+  "networks": [
+    {
+      "mode": "container/bridge"
+    }
+  ],
+  "requirePorts": false,
+  "upgradeStrategy": {
+    "maximumOverCapacity": 1,
+    "minimumHealthCapacity": 1
+  },
+  "killSelection": "YOUNGEST_FIRST",
+  "unreachableStrategy": {
+    "inactiveAfterSeconds": 0,
+    "expungeAfterSeconds": 0
+  },
+  "healthChecks": [],
+  "fetch": []
+}
